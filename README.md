@@ -24,13 +24,13 @@ You can switch later by saying "connect my email to Dispensa" (or asking to disc
 In Claude Code:
 
 ```
-/plugin install dispensa --marketplace GITHUB_USER/dispensa
+/plugin install dispensa --marketplace giovanniclaudiocodice/dispensa
 ```
 
 Or from your shell:
 
 ```
-claude plugin marketplace add GITHUB_USER/dispensa
+claude plugin marketplace add giovanniclaudiocodice/dispensa
 claude plugin install dispensa@dispensa
 ```
 
