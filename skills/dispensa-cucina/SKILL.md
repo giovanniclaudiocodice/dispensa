@@ -33,4 +33,4 @@ Read each doc first and pin writes with `if_version`. Use one `batch` for severa
 
 ## Refresh receipts
 
-If the user asks to check receipts now, call `fire_trigger` with `meta/state.manualTriggerId` and say it takes a few minutes and the dashboard updates by itself.
+If the user asks to check receipts now and `meta/state.mode` is not `manual`, call `fire_trigger` with `meta/state.manualTriggerId` and say it takes a few minutes, it reads only the last 48 hours of email, and the dashboard updates by itself. In manual mode, say email is not connected: they can upload a receipt photo in the dashboard, tell you what they bought, or say "connect my email to Dispensa" to switch (the `dispensa-setup` skill does it).

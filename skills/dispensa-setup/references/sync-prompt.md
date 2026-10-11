@@ -1,11 +1,11 @@
 # Sync prompt template
 
-Fill every `{{PLACEHOLDER}}` before creating the scheduled task. Create two tasks from this one template:
+Use this template only when the user chose to connect email (`meta/state.mode` is `email`). Fill every `{{PLACEHOLDER}}` before creating the scheduled task. Create two tasks from this one template. Both read only the last 48 hours of email:
 
 | Task | `{{KIND}}` | `{{WINDOW}}` | `{{SOURCE}}` | `{{NOTIFY}}` | Schedule | Model |
 |---|---|---|---|---|---|---|
-| Daily sync | `Daily` | `3d` | `daily sync` | `new items added (one line per receipt), any unclear lines, and non-gone items with useBy today or tomorrow` | daily at the time the user chose | default |
-| Manual refresh | `Manual` | `30d` | `manual refresh` | `new items added (one line per receipt) or unclear lines` | none (fired from the dashboard button) | default, or the model the user picked |
+| Daily sync | `Daily` | `2d` | `daily sync` | `new items added (one line per receipt), any unclear lines, and non-gone items with useBy today or tomorrow` | daily at the time the user chose | default |
+| Manual refresh | `Manual` | `2d` | `manual refresh` | `new items added (one line per receipt) or unclear lines` | none (fired from the dashboard button) | default, or the model the user picked |
 
 Everything between the two lines below is the prompt. Copy it verbatim after filling the placeholders.
 
@@ -21,11 +21,11 @@ Collections:
 - recipes/<slug>: {tier (simple|complex), rank (1-3, simple rank 1 is shown as the "tonight" pick), slot (tonight for simple rank 1, quick for simple ranks 2-3, slow for complex), batch (same ISO timestamp for all recipes written in one run), servings, title, time_min, uses [inventory ids], why (one sentence), ingredients [strings], steps [strings], generated (ISO), source}
 - ratings/<slug>: {title, vote (1 liked, -1 disliked), at}
 - feedback/<auto id>: {text, prompt (optional, the full instruction), at, status (open|applied), reply}
-- meta/state: {owner, cuisine, lang, servings, manualTriggerId, inbox, timezone, lastSync (ISO 8601 with offset), processedEmails [Gmail message ids]}
+- meta/state: {owner, cuisine, lang, mode (email|manual), servings, manualTriggerId, inbox, timezone, lastSync (ISO 8601 with offset), processedEmails [Gmail message ids]}
 
 Step 1. ArtifactData list inventory, recipes, ratings, feedback, and get meta/state.
 
-Step 2. In Gmail ({{INBOX}}) search inbox emails with newer_than:{{WINDOW}}. Skip any message id already in meta/state.processedEmails without opening it. For each new email decide if it is a food purchase:
+Step 2. If meta/state.mode is "manual", skip steps 2 and 3 (email is not connected). Otherwise, in Gmail ({{INBOX}}) search inbox emails with newer_than:{{WINDOW}} only (the last 48 hours). Never search or open older emails, even if asked in feedback. Skip any message id already in meta/state.processedEmails without opening it. For each new email decide if it is a food purchase:
 - Online grocery receipts or order confirmations from any supermarket or grocery delivery service (often forwarded by {{OWNER}}): parse item lines (get_thread messageFormat PLAIN_TEXT), check the count against any "items" total, ignore bags, fees, tips, taxes and non-food.
 - Email with a photo of a paper receipt: Gmail tools have no attachment download, so call get_message with messageFormat=RAW, write the raw MIME to a file in your scratchpad, extract image parts with Python's email module (python3 -I), and view each image with the Read tool. Extract only food items. Mark unreadable lines by appending the word "unclear" in the current language, in parentheses, to the name, never guess.
 - Anything else: ignore.

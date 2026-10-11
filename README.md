@@ -2,7 +2,7 @@
 
 A personal fridge and pantry dashboard run by Claude, built to minimize food waste and recommend healthy recipes based on your preferences. *Dispensa* is Italian for pantry.
 
-- Reads grocery receipts that reach a Gmail inbox (online orders from any store, or photos of paper receipts)
+- Gets your food in two ways, your choice at setup: reading grocery receipts from a Gmail inbox (last 48 hours only), or just photos and manual entry with no email access
 - Tracks quantities in metric units and conservative use-by dates
 - Proposes 3 quick and 3 longer recipes, scaled to the number of people, using first what expires first
 - Learns from thumbs up and down, "I cooked this", notes typed or dictated, and fridge photos
@@ -10,15 +10,14 @@ A personal fridge and pantry dashboard run by Claude, built to minimize food was
 
 ## Before you install
 
-Dispensa needs all of these. Without them some parts stop working:
+At setup you choose how food gets into your inventory:
 
-| Requirement | Used for | If missing |
+| Mode | How food gets in | What you need |
 |---|---|---|
-| A Claude plan with Artifacts and scheduled tasks | The dashboard and the daily check | Dispensa cannot run |
-| Gmail connector | Reading receipts automatically | You can still add food with photos and notes |
-| Claude Code Remote connector | The refresh button on the dashboard | Receipts are read only at the daily check |
+| Email | Grocery receipts reaching a Gmail inbox, read once a day and when you tap refresh, only from the last 48 hours. Photos and notes work too | A Claude plan with Artifacts and scheduled tasks, the Gmail connector, the Claude Code Remote connector for the refresh button |
+| Photos and manual | Receipt photos, fridge photos, or writing what you bought | A Claude plan with Artifacts |
 
-A dedicated Gmail account that only receives forwarded grocery receipts is strongly recommended. See [PRIVACY.md](PRIVACY.md).
+You can switch later by saying "connect my email to Dispensa" (or asking to disconnect it). In email mode, a dedicated Gmail account that only receives forwarded grocery receipts is strongly recommended. See [PRIVACY.md](PRIVACY.md).
 
 ## Install
 
@@ -41,12 +40,14 @@ Then say "set up Dispensa" (or "configura la dispensa", "configurer Dispensa", "
 
 | Skill | Use it to |
 |---|---|
-| `dispensa-setup` | Create your dashboard, its database and the two scheduled tasks (daily check and manual check) |
+| `dispensa-setup` | Create your dashboard and its database, connect or disconnect email, and (in email mode) schedule the daily and manual checks |
 | `dispensa-cucina` | Ask what to cook or what is in the fridge, and update the inventory from chat |
 
 ## Sharing
 
-You can share the dashboard with the people you live with. They can add notes, photos and ratings, mark recipes as cooked and change use-by dates. Only the person who set it up can start a receipt check from the refresh button, because the scheduled task belongs to their account. Their notes are applied at the next daily check.
+Every user who installs Dispensa gets their own dashboard, inventory, tasks and email on their own Claude account.
+
+You can also share your dashboard with the people you live with. They can add notes, photos and ratings, mark recipes as cooked and change use-by dates, all applied right away with their own Claude. Only the person who set it up can start an email check, because the scheduled task and the Gmail connection belong to their account.
 
 ## Notes
 
