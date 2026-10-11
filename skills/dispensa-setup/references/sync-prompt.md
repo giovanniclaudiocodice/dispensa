@@ -25,7 +25,7 @@ Collections:
 
 Step 1. ArtifactData list inventory, recipes, ratings, feedback, and get meta/state.
 
-Step 2. If meta/state.mode is "manual", skip steps 2 and 3 (email is not connected). Otherwise, in Gmail ({{INBOX}}) search inbox emails with newer_than:{{WINDOW}} only (the last 48 hours). Never search or open older emails, even if asked in feedback. Skip any message id already in meta/state.processedEmails without opening it. For each new email decide if it is a food purchase:
+Step 2. If meta/state.mode is "manual", skip steps 2 and 3 (email is not connected). Otherwise, in Gmail ({{INBOX}}) search inbox emails with newer_than:{{WINDOW}} only (the last 48 hours). Never search or open older emails, even if asked in feedback. If the search returns a message whose date is more than 48 hours before now, skip it without opening it. Skip any message id already in meta/state.processedEmails without opening it. For each new email decide if it is a food purchase:
 - Online grocery receipts or order confirmations from any supermarket or grocery delivery service (often forwarded by {{OWNER}}): parse item lines (get_thread messageFormat PLAIN_TEXT), check the count against any "items" total, ignore bags, fees, tips, taxes and non-food.
 - Email with a photo of a paper receipt: Gmail tools have no attachment download, so call get_message with messageFormat=RAW, write the raw MIME to a file in your scratchpad, extract image parts with Python's email module (python3 -I), and view each image with the Read tool. Extract only food items. Mark unreadable lines by appending the word "unclear" in the current language, in parentheses, to the name, never guess.
 - Anything else: ignore.

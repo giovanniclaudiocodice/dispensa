@@ -57,7 +57,7 @@ You can also share your dashboard with the people you live with. They can add no
 
 ## Privacy
 
-Dispensa has no server of its own. Everything stays in your Claude account and your private dashboard. Full details in [PRIVACY.md](PRIVACY.md).
+Dispensa has no server, analytics or tracking of its own. Your data stays in your Claude account and your private dashboard. The only outside request is the dashboard's font, loaded from Google Fonts (fonts.googleapis.com), which sees the viewer's IP address. In email mode Claude reads your Gmail through the Gmail connector, and the refresh button uses the Claude Code Remote connector. Full details in [PRIVACY.md](PRIVACY.md).
 
 ## License
 
