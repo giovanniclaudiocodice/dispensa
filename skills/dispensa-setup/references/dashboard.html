@@ -90,6 +90,20 @@ h1 { margin: 6px 0 0; font-size: 34px; font-weight: 700; letter-spacing: -0.022e
 .sec-head span { font-size: 15px; color: var(--muted) }
 .dim { transition: opacity .25s }
 .wrap.busy .dim { opacity: .38; pointer-events: none }
+.wrap.busy .dim.loading { opacity: 1 }
+.loading { position: relative; min-height: 230px }
+.loader { position: absolute; inset: -6px -8px; z-index: 6; display: flex; justify-content: center; align-items: flex-start; padding-top: 52px; border-radius: 18px; background: color-mix(in srgb, var(--bg) 72%, transparent); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); animation: ldin .25s ease-out }
+.loader.out { opacity: 0; transition: opacity .35s }
+.ld-card { width: min(330px, 94%); background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px 16px; box-shadow: 0 8px 28px rgba(0, 0, 0, .10) }
+.ld-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 13px; color: var(--muted) }
+.ld-pct { font-size: 22px; font-weight: 800; color: var(--fg); font-variant-numeric: tabular-nums }
+.ld-bar { height: 6px; border-radius: 3px; background: var(--track); overflow: hidden; margin: 8px 0 12px }
+.ld-bar > div { height: 100%; width: 0; border-radius: 3px; background: var(--send); transition: width .9s linear }
+.ld-kicker { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px }
+.ld-fact { font-size: 14px; line-height: 1.45; min-height: 4.4em; transition: opacity .45s, transform .45s }
+.ld-fact.swap { opacity: 0; transform: translateY(6px) }
+@keyframes ldin { from { opacity: 0 } }
+@media (prefers-reduced-motion: reduce) { .ld-fact, .ld-bar > div { transition: none } .loader { animation: none } }
 .group { background: var(--card); border-radius: 16px; padding: 0 16px }
 .group > * + * { border-top: 1px solid var(--line) }
 .empty { color: var(--muted); font-size: 15px; padding: 16px 0 }
@@ -425,7 +439,7 @@ const I18N = {
     refreshTonight: "Proponi un altro piatto per stasera", carTonight: "Proposte per stasera", prevSugg: "Proposta precedente", nextSugg: "Proposta successiva",
     quickH: "Altre idee veloci", quickSub: "Meno di 25 min", refreshQuick: "Nuove idee veloci", carQuick: "Proposte veloci", ideasAfterFirst: "Le idee compaiono dopo il primo controllo.",
     slowH: "Quando hai tempo", refreshSlow: "Nuove ricette elaborate", carSlow: "Proposte elaborate",
-    photoH: "Aggiorna con le foto", navShop: "Spesa", p_pref: "Niente aceto", prefsN: { one: "Preferenza ricordata (1)", other: "Preferenze ricordate ({n})" }, prefsHint: "Claude le segue in ogni ricetta. Aggiungile scrivendo una nota, ad esempio \"non mi piace l'aceto\".", prefRemove: "Rimuovi", updToday: "Aggiornato alle {time}", updYesterday: "Aggiornato ieri", updOn: "Aggiornato il {date}", shopH: "Da comprare", shopSub: "Per tenere la dispensa in ordine e sbloccare più ricette.", shopEmpty: "Tocca aggiorna per avere la lista della spesa.", shopRefresh: "Aggiorna la lista della spesa", shopBought: "Comprato", kindRestock: "Scorta", kindUnlock: "Più ricette", makingList: "Preparo la lista della spesa…", errShop: "Non sono riuscito a preparare la lista ({code}).", shopAt: "Aggiornata il {date}.", fixing: "Aggiorno le ricette senza {name}…", newBatch: "Preparo nuove ricette…", buying: "Aggiungo {name} alla dispensa…", fixed: { one: "Ho sostituito {n} ricetta che usava {name}.", other: "Ho sostituito {n} ricette che usavano {name}." }, photoType: "Tipo di foto", modeReceipt: "Scontrini", modeFridge: "Frigo", addPhotos: "Aggiungi foto",
+    photoH: "Aggiorna con le foto", navShop: "Spesa", ldKicker: "Lo sapevi?", ldSec: "circa {n} s", ldMin: "circa {n} min", ldAlmost: "quasi pronto", ldDone: "pronto", p_pref: "Niente aceto", prefsN: { one: "Preferenza ricordata (1)", other: "Preferenze ricordate ({n})" }, prefsHint: "Claude le segue in ogni ricetta. Aggiungile scrivendo una nota, ad esempio \"non mi piace l'aceto\".", prefRemove: "Rimuovi", updToday: "Aggiornato alle {time}", updYesterday: "Aggiornato ieri", updOn: "Aggiornato il {date}", shopH: "Da comprare", shopSub: "Per tenere la dispensa in ordine e sbloccare più ricette.", shopEmpty: "Tocca aggiorna per avere la lista della spesa.", shopRefresh: "Aggiorna la lista della spesa", shopBought: "Comprato", kindRestock: "Scorta", kindUnlock: "Più ricette", makingList: "Preparo la lista della spesa…", errShop: "Non sono riuscito a preparare la lista ({code}).", shopAt: "Aggiornata il {date}.", fixing: "Aggiorno le ricette senza {name}…", newBatch: "Preparo nuove ricette…", buying: "Aggiungo {name} alla dispensa…", fixed: { one: "Ho sostituito {n} ricetta che usava {name}.", other: "Ho sostituito {n} ricette che usavano {name}." }, photoType: "Tipo di foto", modeReceipt: "Scontrini", modeFridge: "Frigo", addPhotos: "Aggiungi foto",
     kitchenH: "In cucina", pantryAfterFirst: "La dispensa compare dopo il primo controllo degli scontrini.", staplesFoot: "Riso, pasta e condimenti sono sempre considerati in dispensa.",
     recentMsgs: "Messaggi recenti", textSize: "Dimensione testo", smaller: "Testo più piccolo", larger: "Testo più grande", close: "Chiudi",
     noteLabel: "Nota per Claude", notePh: "Scrivi o detta una nota per Claude", send: "Invia", errLang: "Non sono riuscito a cambiare lingua ({code}).",
@@ -477,7 +491,7 @@ const I18N = {
     refreshTonight: "Suggest another dish for tonight", carTonight: "Tonight's suggestions", prevSugg: "Previous suggestion", nextSugg: "Next suggestion",
     quickH: "More quick ideas", quickSub: "Under 25 min", refreshQuick: "New quick ideas", carQuick: "Quick suggestions", ideasAfterFirst: "Ideas appear after the first check.",
     slowH: "When you have time", refreshSlow: "New elaborate recipes", carSlow: "Elaborate suggestions",
-    photoH: "Update with photos", navShop: "Shopping", p_pref: "No vinegar", prefsN: { one: "Remembered preference (1)", other: "Remembered preferences ({n})" }, prefsHint: "Claude follows them in every recipe. Add one by writing a note, for example \"I don't like vinegar\".", prefRemove: "Remove", updToday: "Updated {time}", updYesterday: "Updated yesterday", updOn: "Updated {date}", shopH: "To buy", shopSub: "Keeps your pantry stocked and unlocks more recipes.", shopEmpty: "Tap refresh to get a shopping list.", shopRefresh: "Refresh the shopping list", shopBought: "Bought", kindRestock: "Restock", kindUnlock: "More recipes", makingList: "Making your shopping list…", errShop: "Couldn't make the list ({code}).", shopAt: "Updated {date}.", fixing: "Updating recipes without {name}…", newBatch: "Making new recipes…", buying: "Adding {name} to your pantry…", fixed: { one: "Replaced {n} recipe that used {name}.", other: "Replaced {n} recipes that used {name}." }, photoType: "Photo type", modeReceipt: "Receipts", modeFridge: "Fridge", addPhotos: "Add photos",
+    photoH: "Update with photos", navShop: "Shopping", ldKicker: "Did you know?", ldSec: "about {n} s", ldMin: "about {n} min", ldAlmost: "almost there", ldDone: "done", p_pref: "No vinegar", prefsN: { one: "Remembered preference (1)", other: "Remembered preferences ({n})" }, prefsHint: "Claude follows them in every recipe. Add one by writing a note, for example \"I don't like vinegar\".", prefRemove: "Remove", updToday: "Updated {time}", updYesterday: "Updated yesterday", updOn: "Updated {date}", shopH: "To buy", shopSub: "Keeps your pantry stocked and unlocks more recipes.", shopEmpty: "Tap refresh to get a shopping list.", shopRefresh: "Refresh the shopping list", shopBought: "Bought", kindRestock: "Restock", kindUnlock: "More recipes", makingList: "Making your shopping list…", errShop: "Couldn't make the list ({code}).", shopAt: "Updated {date}.", fixing: "Updating recipes without {name}…", newBatch: "Making new recipes…", buying: "Adding {name} to your pantry…", fixed: { one: "Replaced {n} recipe that used {name}.", other: "Replaced {n} recipes that used {name}." }, photoType: "Photo type", modeReceipt: "Receipts", modeFridge: "Fridge", addPhotos: "Add photos",
     kitchenH: "In the kitchen", pantryAfterFirst: "Your pantry appears after the first receipt check.", staplesFoot: "Rice, pasta and condiments always count as in stock.",
     recentMsgs: "Recent messages", textSize: "Text size", smaller: "Smaller text", larger: "Larger text", close: "Close",
     noteLabel: "Note for Claude", notePh: "Write or dictate a note for Claude", send: "Send", errLang: "Couldn't change the language ({code}).",
@@ -529,7 +543,7 @@ const I18N = {
     refreshTonight: "Proposer un autre plat pour ce soir", carTonight: "Suggestions pour ce soir", prevSugg: "Suggestion précédente", nextSugg: "Suggestion suivante",
     quickH: "Autres idées rapides", quickSub: "Moins de 25 min", refreshQuick: "Nouvelles idées rapides", carQuick: "Suggestions rapides", ideasAfterFirst: "Les idées apparaissent après la première vérification.",
     slowH: "Quand vous avez le temps", refreshSlow: "Nouvelles recettes élaborées", carSlow: "Suggestions élaborées",
-    photoH: "Mettre à jour avec des photos", navShop: "Courses", p_pref: "Pas de vinaigre", prefsN: { one: "Préférence enregistrée (1)", other: "Préférences enregistrées ({n})" }, prefsHint: "Claude les suit dans chaque recette. Ajoutez-en une en écrivant une note, par exemple « je n'aime pas le vinaigre ».", prefRemove: "Supprimer", updToday: "Mis à jour à {time}", updYesterday: "Mis à jour hier", updOn: "Mis à jour le {date}", shopH: "À acheter", shopSub: "Pour garder le garde-manger rempli et débloquer plus de recettes.", shopEmpty: "Touchez actualiser pour obtenir une liste de courses.", shopRefresh: "Actualiser la liste de courses", shopBought: "Acheté", kindRestock: "Réserve", kindUnlock: "Plus de recettes", makingList: "Je prépare la liste de courses…", errShop: "Impossible de préparer la liste ({code}).", shopAt: "Mise à jour le {date}.", fixing: "Je mets à jour les recettes sans {name}…", newBatch: "Je prépare de nouvelles recettes…", buying: "J'ajoute {name} au garde-manger…", fixed: { one: "J'ai remplacé {n} recette qui utilisait {name}.", other: "J'ai remplacé {n} recettes qui utilisaient {name}." }, photoType: "Type de photo", modeReceipt: "Tickets", modeFridge: "Frigo", addPhotos: "Ajouter des photos",
+    photoH: "Mettre à jour avec des photos", navShop: "Courses", ldKicker: "Le saviez-vous ?", ldSec: "environ {n} s", ldMin: "environ {n} min", ldAlmost: "presque prêt", ldDone: "prêt", p_pref: "Pas de vinaigre", prefsN: { one: "Préférence enregistrée (1)", other: "Préférences enregistrées ({n})" }, prefsHint: "Claude les suit dans chaque recette. Ajoutez-en une en écrivant une note, par exemple « je n'aime pas le vinaigre ».", prefRemove: "Supprimer", updToday: "Mis à jour à {time}", updYesterday: "Mis à jour hier", updOn: "Mis à jour le {date}", shopH: "À acheter", shopSub: "Pour garder le garde-manger rempli et débloquer plus de recettes.", shopEmpty: "Touchez actualiser pour obtenir une liste de courses.", shopRefresh: "Actualiser la liste de courses", shopBought: "Acheté", kindRestock: "Réserve", kindUnlock: "Plus de recettes", makingList: "Je prépare la liste de courses…", errShop: "Impossible de préparer la liste ({code}).", shopAt: "Mise à jour le {date}.", fixing: "Je mets à jour les recettes sans {name}…", newBatch: "Je prépare de nouvelles recettes…", buying: "J'ajoute {name} au garde-manger…", fixed: { one: "J'ai remplacé {n} recette qui utilisait {name}.", other: "J'ai remplacé {n} recettes qui utilisaient {name}." }, photoType: "Type de photo", modeReceipt: "Tickets", modeFridge: "Frigo", addPhotos: "Ajouter des photos",
     kitchenH: "En cuisine", pantryAfterFirst: "Votre garde-manger apparaît après la première vérification des tickets.", staplesFoot: "Le riz, les pâtes et les condiments sont toujours considérés en stock.",
     recentMsgs: "Messages récents", textSize: "Taille du texte", smaller: "Texte plus petit", larger: "Texte plus grand", close: "Fermer",
     noteLabel: "Note pour Claude", notePh: "Écrivez ou dictez une note pour Claude", send: "Envoyer", errLang: "Impossible de changer de langue ({code}).",
@@ -581,7 +595,7 @@ const I18N = {
     refreshTonight: "Sugerir otro plato para esta noche", carTonight: "Sugerencias para esta noche", prevSugg: "Sugerencia anterior", nextSugg: "Sugerencia siguiente",
     quickH: "Más ideas rápidas", quickSub: "Menos de 25 min", refreshQuick: "Nuevas ideas rápidas", carQuick: "Sugerencias rápidas", ideasAfterFirst: "Las ideas aparecen tras la primera revisión.",
     slowH: "Cuando tengas tiempo", refreshSlow: "Nuevas recetas elaboradas", carSlow: "Sugerencias elaboradas",
-    photoH: "Actualizar con fotos", navShop: "Compra", p_pref: "Sin vinagre", prefsN: { one: "Preferencia guardada (1)", other: "Preferencias guardadas ({n})" }, prefsHint: "Claude las sigue en cada receta. Añade una escribiendo una nota, por ejemplo \"no me gusta el vinagre\".", prefRemove: "Quitar", updToday: "Actualizado a las {time}", updYesterday: "Actualizado ayer", updOn: "Actualizado el {date}", shopH: "Por comprar", shopSub: "Para mantener la despensa surtida y desbloquear más recetas.", shopEmpty: "Toca actualizar para obtener una lista de la compra.", shopRefresh: "Actualizar la lista de la compra", shopBought: "Comprado", kindRestock: "Reponer", kindUnlock: "Más recetas", makingList: "Preparo la lista de la compra…", errShop: "No se pudo preparar la lista ({code}).", shopAt: "Actualizada el {date}.", fixing: "Actualizo las recetas sin {name}…", newBatch: "Preparo nuevas recetas…", buying: "Añado {name} a la despensa…", fixed: { one: "He sustituido {n} receta que usaba {name}.", other: "He sustituido {n} recetas que usaban {name}." }, photoType: "Tipo de foto", modeReceipt: "Recibos", modeFridge: "Nevera", addPhotos: "Añadir fotos",
+    photoH: "Actualizar con fotos", navShop: "Compra", ldKicker: "¿Sabías que…?", ldSec: "unos {n} s", ldMin: "unos {n} min", ldAlmost: "casi listo", ldDone: "listo", p_pref: "Sin vinagre", prefsN: { one: "Preferencia guardada (1)", other: "Preferencias guardadas ({n})" }, prefsHint: "Claude las sigue en cada receta. Añade una escribiendo una nota, por ejemplo \"no me gusta el vinagre\".", prefRemove: "Quitar", updToday: "Actualizado a las {time}", updYesterday: "Actualizado ayer", updOn: "Actualizado el {date}", shopH: "Por comprar", shopSub: "Para mantener la despensa surtida y desbloquear más recetas.", shopEmpty: "Toca actualizar para obtener una lista de la compra.", shopRefresh: "Actualizar la lista de la compra", shopBought: "Comprado", kindRestock: "Reponer", kindUnlock: "Más recetas", makingList: "Preparo la lista de la compra…", errShop: "No se pudo preparar la lista ({code}).", shopAt: "Actualizada el {date}.", fixing: "Actualizo las recetas sin {name}…", newBatch: "Preparo nuevas recetas…", buying: "Añado {name} a la despensa…", fixed: { one: "He sustituido {n} receta que usaba {name}.", other: "He sustituido {n} recetas que usaban {name}." }, photoType: "Tipo de foto", modeReceipt: "Recibos", modeFridge: "Nevera", addPhotos: "Añadir fotos",
     kitchenH: "En la cocina", pantryAfterFirst: "Tu despensa aparece tras la primera revisión de recibos.", staplesFoot: "El arroz, la pasta y los condimentos siempre cuentan como disponibles.",
     recentMsgs: "Mensajes recientes", textSize: "Tamaño del texto", smaller: "Texto más pequeño", larger: "Texto más grande", close: "Cerrar",
     noteLabel: "Nota para Claude", notePh: "Escribe o dicta una nota para Claude", send: "Enviar", errLang: "No se pudo cambiar el idioma ({code}).",
@@ -958,7 +972,7 @@ $("send").addEventListener("click", () => send());
 const SHELF = "Conservative use-by from the purchase date: raw poultry, ground meat, fish 1 day. Leafy greens 3 days. Soft veg and fruit 4 days. Fresh soft cheese 7 days. Yogurt 10 days. Eggs 21 days. Hard aged cheese 21 days. Onions, garlic, potatoes 14 days. Bread 3 days. Packaged dry goods 30 days. Frozen items 60 days.";
 const RECIPE_SHAPE = () => `"recipes": [{"id": "kebab-case-slug", "tier": "simple"|"complex", "rank": 1, "servings": number, "title": "${t("p_lang")} name", "time_min": number, "uses": [inventory ids], "why": "one ${t("p_lang")} sentence on why now", "ingredients": ["metric quantity + ingredient"], "steps": ["one short imperative step each"]}]`;
 const RECIPE_RULES = 'Return a fresh set of exactly 3 "simple" recipes (25 min or less, few steps) and 3 "complex" recipes (medium to high complexity). Use only in-stock items plus the staples. Prioritize items with the fewest days left. Keep the recipes healthy and balanced (plenty of vegetables, lean proteins, whole grains when available, moderate fat and salt) while respecting the stated preferences, and plan them so nothing in the inventory ends up wasted. Never use an item with status gone. Simple rank 1 is shown as tonight\'s suggestion.';
-const FAST = "quick"; /* modello rapido per ricette e spesa: risposte molto più veloci */
+const MODEL_TIER = "default"; /* modello completo: qualità prima della velocità */
 const BRIEF = 'Be concise so the answer is fast: "why" under 20 words, at most 8 ingredients and 6 steps per recipe, each step under 15 words.';
 const SHOP_RULES = () => `Suggest a shopping list of 5 to 8 items. Two goals, in this order. 1) Keep the pantry at an acceptable level: restock everyday basics that are missing, gone, low or running out within 2 days (for example eggs, onions, a leafy green, seasonal vegetables, fruit, a lean protein, yogurt or milk, bread), sized for the household and for about 3 to 4 days of fresh food. Never suggest what is already in stock with plenty left. 2) Maximize the number of sensible recipes: prefer items that combine with what is in stock and unlock several new dishes in the stated cuisine. Never list rice, pasta or condiments. Keep it healthy and avoid waste: no quantities that would expire before they can be used. "kind" is "restock" for goal 1 and "unlock" for goal 2. "why" says in ${t("p_lang")}, under 15 words, what it restocks or which dishes it unlocks.`;
 const SHOP_SHAPE = () => `"shopping": [{"name": "short generic ${t("p_lang")} name", "qty": "metric quantity or count", "kind": "restock"|"unlock", "why": string}]`;
@@ -1013,6 +1027,51 @@ Return ONLY JSON in this shape:
 
 const isDate = v => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
 function slugify(s) { return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "item"; }
+const FACTS = {"it": ["Il pomodoro arrivò in Europa dalle Americhe nel Cinquecento, ma la prima ricetta italiana di salsa di pomodoro è del 1692, nel libro di Antonio Latini.","Marco Polo non portò la pasta dalla Cina: già nel 1154 il geografo al-Idrisi descriveva a Trabia, in Sicilia, una produzione di pasta secca spedita via mare.","La carbonara compare in stampa solo nel 1950. Le sue origini sono ancora discusse, e la panna non fa parte della ricetta romana.","Una forma di Parmigiano Reggiano pesa circa 40 kg e stagiona almeno 12 mesi prima di poter portare il marchio.","Servono circa 150 fiori di crocus per un solo grammo di zafferano: ogni fiore ha appena tre stimmi.","Nel 1891 Pellegrino Artusi pubblicò a sue spese La scienza in cucina e l'arte di mangiar bene, che diventò uno dei libri più letti d'Italia.","Il quinto gusto, l'umami, fu identificato nel 1908 dal chimico giapponese Kikunae Ikeda studiando il brodo di alga kombu.","La crosticina dorata di carne e pane si deve alla reazione di Maillard, descritta dal chimico francese Louis-Camille Maillard nel 1912.","L'Aceto Balsamico Tradizionale di Modena DOP invecchia almeno 12 anni, passando per una serie di botti di legni diversi.","Il primo brevetto di una macchina per il caffè espresso fu depositato a Torino nel 1884 da Angelo Moriondo.","Per essere extravergine, un olio d'oliva deve avere un'acidità libera non superiore allo 0,8%.","Si stima che circa un terzo del cibo prodotto nel mondo vada perso o sprecato. Usare prima ciò che scade è il modo più semplice per ridurlo.","Mozzarella viene dal verbo mozzare: la pasta filata viene staccata a mano, con un gesto di pollice e indice.","Il tiramisù è un dolce giovane: le prime ricette documentate risalgono agli anni Sessanta, tra Veneto e Friuli.","La regola classica della pasta fresca all'uovo è semplice: un uovo ogni 100 g di farina.","Il mare contiene circa il 3,5% di sale, l'acqua della pasta di solito intorno all'1%. Salata come il mare è solo un modo di dire.","I formaggi a pasta dura durano più a lungo di quelli freschi perché contengono molta meno acqua, dove i batteri crescono meglio.","Il Carnaroli è detto il re dei risi: il suo amido regge la cottura lunga e rende il risotto cremoso senza scuocere."],"en": ["Tomatoes reached Europe from the Americas in the 1500s, but the first Italian tomato sauce recipe only appeared in 1692, in Antonio Latini's cookbook.","Marco Polo did not bring pasta from China: in 1154 the geographer al-Idrisi already described dried pasta being made in Trabia, Sicily, and shipped abroad.","Carbonara first appears in print only in 1950. Its origins are still debated, and cream is not part of the Roman recipe.","A wheel of Parmigiano Reggiano weighs about 40 kg and ages at least 12 months before it can carry the brand.","It takes about 150 crocus flowers to make a single gram of saffron: each flower has just three stigmas.","In 1891 Pellegrino Artusi self-published The Science of Cooking and the Art of Eating Well, which became one of Italy's most read books.","The fifth taste, umami, was identified in 1908 by the Japanese chemist Kikunae Ikeda while studying kombu seaweed broth.","The golden crust on meat and bread comes from the Maillard reaction, described by the French chemist Louis-Camille Maillard in 1912.","Traditional Balsamic Vinegar of Modena PDO ages for at least 12 years, moving through a series of barrels made of different woods.","The first patent for an espresso machine was filed in Turin in 1884 by Angelo Moriondo.","To be extra virgin, an olive oil must have a free acidity of no more than 0.8%.","About a third of the food produced worldwide is estimated to be lost or wasted. Using first what expires first is the simplest way to cut it.","Mozzarella comes from the Italian verb mozzare, to cut off: the stretched curd is torn off by hand between thumb and finger.","Tiramisù is a young dessert: the first documented recipes date from the 1960s, in Veneto and Friuli.","The classic rule for fresh egg pasta is simple: one egg for every 100 g of flour.","Seawater is about 3.5% salt, pasta water usually around 1%. Salty as the sea is just a figure of speech.","Hard cheeses keep longer than fresh ones because they contain much less water, where bacteria grow best.","Carnaroli is called the king of rice: its starch holds up to long cooking and makes risotto creamy without turning mushy."],"fr": ["La tomate est arrivée des Amériques en Europe au XVIe siècle, mais la première recette italienne de sauce tomate date de 1692, dans le livre d'Antonio Latini.","Marco Polo n'a pas rapporté les pâtes de Chine : dès 1154, le géographe al-Idrisi décrivait à Trabia, en Sicile, une production de pâtes sèches expédiées par la mer.","La carbonara n'apparaît dans la presse qu'en 1950. Ses origines restent discutées, et la crème ne fait pas partie de la recette romaine.","Une meule de Parmigiano Reggiano pèse environ 40 kg et doit vieillir au moins 12 mois pour porter la marque.","Il faut environ 150 fleurs de crocus pour un seul gramme de safran : chaque fleur n'a que trois stigmates.","En 1891, Pellegrino Artusi publie à compte d'auteur La science en cuisine et l'art de bien manger, devenu l'un des livres les plus lus d'Italie.","La cinquième saveur, l'umami, a été identifiée en 1908 par le chimiste japonais Kikunae Ikeda en étudiant le bouillon d'algue kombu.","La croûte dorée de la viande et du pain vient de la réaction de Maillard, décrite par le chimiste français Louis-Camille Maillard en 1912.","Le vinaigre balsamique traditionnel de Modène AOP vieillit au moins 12 ans, en passant par une série de fûts de bois différents.","Le premier brevet de machine à expresso a été déposé à Turin en 1884 par Angelo Moriondo.","Pour être vierge extra, une huile d'olive doit avoir une acidité libre de 0,8 % au maximum.","On estime qu'environ un tiers de la nourriture produite dans le monde est perdu ou gaspillé. Utiliser d'abord ce qui périme en premier est le moyen le plus simple de le réduire.","Mozzarella vient du verbe italien mozzare, couper : la pâte filée est détachée à la main, entre le pouce et l'index.","Le tiramisù est un dessert jeune : les premières recettes documentées datent des années 1960, entre la Vénétie et le Frioul.","La règle classique des pâtes fraîches aux œufs est simple : un œuf pour 100 g de farine.","L'eau de mer contient environ 3,5 % de sel, l'eau des pâtes en général autour de 1 %. Salée comme la mer n'est qu'une façon de parler.","Les fromages à pâte dure se conservent plus longtemps que les frais car ils contiennent bien moins d'eau, où les bactéries se développent le mieux.","Le Carnaroli est surnommé le roi des riz : son amidon résiste à une longue cuisson et rend le risotto crémeux sans le rendre pâteux."],"es": ["El tomate llegó a Europa desde América en el siglo XVI, pero la primera receta italiana de salsa de tomate es de 1692, en el libro de Antonio Latini.","Marco Polo no trajo la pasta de China: ya en 1154 el geógrafo al-Idrisi describía en Trabia, Sicilia, una producción de pasta seca enviada por mar.","La carbonara aparece impresa por primera vez en 1950. Su origen sigue en debate, y la nata no forma parte de la receta romana.","Una rueda de Parmigiano Reggiano pesa unos 40 kg y madura al menos 12 meses antes de llevar la marca.","Hacen falta unas 150 flores de azafrán para un solo gramo de especia: cada flor tiene apenas tres estigmas.","En 1891 Pellegrino Artusi publicó por su cuenta La ciencia en la cocina y el arte de comer bien, que se convirtió en uno de los libros más leídos de Italia.","El quinto sabor, el umami, lo identificó en 1908 el químico japonés Kikunae Ikeda estudiando el caldo de alga kombu.","La costra dorada de la carne y el pan se debe a la reacción de Maillard, descrita por el químico francés Louis-Camille Maillard en 1912.","El Vinagre Balsámico Tradicional de Módena DOP envejece al menos 12 años, pasando por una serie de barricas de maderas distintas.","La primera patente de una máquina de café espresso se registró en Turín en 1884, a nombre de Angelo Moriondo.","Para ser virgen extra, un aceite de oliva debe tener una acidez libre no superior al 0,8 %.","Se calcula que cerca de un tercio de los alimentos producidos en el mundo se pierde o se desperdicia. Usar primero lo que caduca antes es la forma más sencilla de reducirlo.","Mozzarella viene del verbo italiano mozzare, cortar: la pasta hilada se separa a mano, entre el pulgar y el índice.","El tiramisú es un postre joven: las primeras recetas documentadas son de los años sesenta, entre el Véneto y el Friul.","La regla clásica de la pasta fresca al huevo es sencilla: un huevo por cada 100 g de harina.","El agua de mar tiene alrededor de un 3,5 % de sal, el agua de la pasta suele rondar el 1 %. Salada como el mar es solo una forma de hablar.","Los quesos curados duran más que los frescos porque tienen mucha menos agua, que es donde mejor crecen las bacterias.","Al Carnaroli lo llaman el rey de los arroces: su almidón aguanta la cocción larga y deja el risotto cremoso sin que se pase."]};
+/* overlay di caricamento sopra la sezione che si aggiorna: % stimata, tempo mancante e curiosità di cucina */
+const SEC = { tonight: "tonight-sec", quick: "sec-quick", slow: "sec-slow" };
+const LD_DEFAULT = { note: 14000, fix: 30000, regen: 55000, slot: 25000, shop: 20000, rescale: 18000, receipt: 40000, fridge: 40000 };
+function ldExpected(kind) { try { const m = JSON.parse(localStorage.getItem("dispensa-durations") || "{}"); if (m[kind] > 2000) return m[kind]; } catch (e) {} return LD_DEFAULT[kind] || 25000; }
+function ldRecord(kind, ms) { try { const m = JSON.parse(localStorage.getItem("dispensa-durations") || "{}"); m[kind] = m[kind] ? Math.round(m[kind] * 0.6 + ms * 0.4) : ms; localStorage.setItem("dispensa-durations", JSON.stringify(m)); } catch (e) {} }
+let factIdx = Math.floor(Math.random() * 1000);
+function nextFact() { const list = FACTS[lang()] || FACTS.en; return list[(factIdx++) % list.length]; }
+function startLoading(ids, kind) {
+  const h = { kind, start: Date.now(), exp: ldExpected(kind), parts: [] };
+  for (const id of ids) {
+    const sec = $(id); if (!sec || sec.querySelector(":scope > .loader")) continue;
+    sec.classList.add("loading");
+    const ov = document.createElement("div"); ov.className = "loader"; ov.setAttribute("role", "status");
+    ov.innerHTML = `<div class="ld-card"><div class="ld-top"><span class="ld-pct">0%</span><span class="ld-eta"></span></div><div class="ld-bar"><div></div></div><div class="ld-kicker">${esc(t("ldKicker"))}</div><div class="ld-fact"></div></div>`;
+    ov.querySelector(".ld-fact").textContent = nextFact();
+    sec.appendChild(ov); h.parts.push({ sec, ov });
+  }
+  const draw = () => {
+    const el = Date.now() - h.start;
+    const p = el < h.exp ? (el / h.exp) * 0.92 : 0.92 + 0.07 * (1 - Math.exp(-(el - h.exp) / 20000));
+    const left = Math.max(0, h.exp - el) / 1000;
+    const eta = el >= h.exp ? t("ldAlmost") : left >= 90 ? t("ldMin", { n: Math.ceil(left / 60) }) : t("ldSec", { n: Math.max(1, Math.ceil(left / 5) * 5) });
+    for (const { ov } of h.parts) { ov.querySelector(".ld-pct").textContent = Math.floor(p * 100) + "%"; ov.querySelector(".ld-bar > div").style.width = (p * 100).toFixed(1) + "%"; ov.querySelector(".ld-eta").textContent = eta; }
+  };
+  draw(); h.tick = setInterval(draw, 500);
+  h.rot = setInterval(() => {
+    for (const { ov } of h.parts) { const f = ov.querySelector(".ld-fact"); f.classList.add("swap"); setTimeout(() => { f.textContent = nextFact(); f.classList.remove("swap"); }, 450); }
+  }, 6500);
+  return h;
+}
+function stopLoading(h, ok) {
+  if (!h) return;
+  clearInterval(h.tick); clearInterval(h.rot);
+  if (ok) ldRecord(h.kind, Date.now() - h.start);
+  for (const { sec, ov } of h.parts) {
+    ov.querySelector(".ld-pct").textContent = ok ? "100%" : ""; ov.querySelector(".ld-bar > div").style.width = ok ? "100%" : "0";
+    ov.querySelector(".ld-eta").textContent = ok ? t("ldDone") : "";
+    setTimeout(() => { ov.classList.add("out"); setTimeout(() => { ov.remove(); if (!sec.querySelector(":scope > .loader")) sec.classList.remove("loading"); }, 350); }, ok ? 350 : 0);
+  }
+}
+async function withLoading(ids, kind, fn) {
+  const h = startLoading(ids, kind); let ok = false;
+  try { const r = await fn(); ok = true; return r; } finally { stopLoading(h, ok); }
+}
 /* scritture in parallelo: molto più rapide di una alla volta */
 async function applyOut(out, at, source) {
   const valid = new Set(state.inventory.map(i => i.id)), ops = [];
@@ -1072,7 +1131,10 @@ Return ONLY JSON in this shape:
 {${RECIPE_SHAPE()}}`;
 }
 async function regenAll(source) {
-  const out = await askJSON(regenPrompt(), { modelTier: FAST });
+  return withLoading(Object.values(SEC), "regen", () => regenAllInner(source));
+}
+async function regenAllInner(source) {
+  const out = await askJSON(regenPrompt(), { modelTier: MODEL_TIER });
   const recs = (out.recipes || []).filter(r => r && r.title && (r.tier === "simple" || r.tier === "complex"));
   if (!recs.length) return out;
   const simple = recs.filter(r => r.tier === "simple").sort(byRank), complex = recs.filter(r => r.tier === "complex").sort(byRank);
@@ -1086,13 +1148,16 @@ async function fixStale(forceIds = []) {
   const stale = latestRecipes().filter(r => forceIds.includes(r.id) || (r.uses || []).some(u => gone.has(u)));
   if (!stale.length) return { n: 0 };
   const names = [...new Set(stale.flatMap(r => (r.uses || []).filter(u => gone.has(u)).map(u => gone.get(u))))];
+  return withLoading([...new Set(stale.map(r => SEC[slotOf(r)]))], "fix", () => fixStaleInner(stale, names, forceIds));
+}
+async function fixStaleInner(stale, names, forceIds) {
   const out = await askJSON(baseContext() + `
 These recipes on screen must be replaced${names.length ? " because " + names.join(", ") + " ran out" : ""}${forceIds.length ? " or because they were just cooked" : ""}: ${JSON.stringify(stale.map(r => ({ id: r.id, tier: r.tier, title: r.title })))}.
 For each one write one replacement of the same tier (simple: 25 min or less, few steps. complex: medium to high complexity) and set "replaces" to the id it replaces. Use only in-stock items plus the staples, prioritize items with the fewest days left, follow the ratings, keep it healthy and balanced, and do not repeat or closely vary: ${JSON.stringify(recentTitles())}. If no sensible replacement exists for one, leave it out. ${BRIEF}
 
 Return ONLY JSON in this shape:
 {${RECIPE_SHAPE()}}
-Each recipe also has "replaces": the id of the recipe it replaces.`, { modelTier: FAST });
+Each recipe also has "replaces": the id of the recipe it replaces.`, { modelTier: MODEL_TIER });
   const at = new Date().toISOString(), byOld = new Map(), taken = new Set(state.recipes.map(r => r.id)), ops = [];
   for (const r of out.recipes || []) if (r && r.title && r.replaces) byOld.set(r.replaces, r);
   let n = 0;
@@ -1133,7 +1198,7 @@ async function refreshShopping(silent) {
   if (!sample || !db || shopBusy) return;
   shopBusy = true; renderShopping();
   try {
-    const out = await askJSON(baseContext() + "\n" + SHOP_RULES() + `\n\nReturn ONLY JSON in this shape:\n{${SHOP_SHAPE()}}`, { modelTier: FAST });
+    const out = await withLoading(["sec-shop"], "shop", () => askJSON(baseContext() + "\n" + SHOP_RULES() + `\n\nReturn ONLY JSON in this shape:\n{${SHOP_SHAPE()}}`, { modelTier: MODEL_TIER }));
     const items = (out.shopping || []).filter(i => i && i.name).slice(0, 10)
       .map(i => ({ name: String(i.name), qty: String(i.qty || ""), kind: i.kind === "unlock" ? "unlock" : "restock", why: String(i.why || "") }));
     await db.doc("meta/shopping").set({ items, at: new Date().toISOString() });
@@ -1174,7 +1239,7 @@ async function send(override, opts = {}) {
     if (!opts.silentLog) fbRef = await db.collection("feedback").add({ text: opts.cooked ? t("cookedLog", { title: opts.cooked }) : text, prompt: text, at, status: "open" });
     if (typed) { $("fb").value = ""; grow(); }
     if (!sample) { showBubble(t("savedLater"), "reply"); return true; }
-    const out = await askJSON(buildPrompt(text), { modelTier: FAST });
+    const out = await withLoading(["sec-kitchen"], "note", () => askJSON(buildPrompt(text), { modelTier: MODEL_TIER }));
     changed = await applyOut(out, at, "message");
     if (fbRef) fbRef.update({ status: "applied", reply: out.reply || "", model: out.__model }).catch(() => {});
     showBubble(out.reply || t("done"), "reply", out.__model);
@@ -1220,7 +1285,7 @@ async function refreshSlot(key) {
   btn.classList.add("spinning");
   setBusy(true, ranks.length === 1 ? t("findingOne") : t("findingMany"));
   try {
-    const out = await askJSON(refreshPrompt(tier, ranks.length, avoid), { modelTier: FAST });
+    const out = await withLoading([SEC[key]], "slot", () => askJSON(refreshPrompt(tier, ranks.length, avoid), { modelTier: MODEL_TIER }));
     const recs = (out.recipes || []).filter(r => r && r.id && r.title).slice(0, ranks.length);
     if (!recs.length) { showBubble(out.reason || t("noMoreRecipes"), "reply", out.__model); return; }
     const at = new Date().toISOString();
@@ -1273,14 +1338,14 @@ $("analyze").addEventListener("click", async () => {
   setBusy(true, pmode === "receipt" ? t("readingReceipts", { n }) : t("lookingFridge"));
   try {
     if (pmode === "receipt") {
-      const out = await askJSON(receiptPrompt(n), { images: files, modelTier: "default" });
+      const out = await withLoading(["sec-photo"], "receipt", () => askJSON(receiptPrompt(n), { images: files, modelTier: "default" }));
       const added = await applyOut(out, at, "photo receipt");
       db.collection("feedback").add({ text: t("receiptLog", { n }), at, status: "applied", reply: out.reply || "", model: out.__model }).catch(() => {});
       clearPhotos();
       showBubble(out.reply || t("done"), "reply", out.__model);
       if (added) { setBusy(true, t("newBatch")); await regenAll("photo receipt"); showBubble((out.reply ? out.reply + " " : "") + t("newRecipes"), "reply", out.__model); refreshShopping(true); }
     } else {
-      const out = await askJSON(fridgePrompt(n), { images: files, modelTier: "default" });
+      const out = await withLoading(["sec-photo"], "fridge", () => askJSON(fridgePrompt(n), { images: files, modelTier: "default" }));
       const items = (out.items || []).filter(i => i && i.id && i.name);
       if (!items.length) { showBubble(out.reply || t("noFood"), "error"); return; }
       fridgePlan = { out, items, at };
@@ -1355,8 +1420,8 @@ for (const b of $("seg").querySelectorAll("button")) b.addEventListener("click",
   if (!sample || !list.length) return;
   setBusy(true, t("rescaling", { people: people(n) }));
   try {
-    const out = await askJSON(`Rescale these recipes for ${n >= 4 ? "4" : n} ${n === 1 ? "person" : "people"}. Keep the same language and wording and change only the quantities (metric, rounded sensibly, whole numbers for counted items). Recipes: ${JSON.stringify(list.map(r => ({ id: r.id, servings: r.servings, ingredients: r.ingredients })))}
-Return ONLY JSON: {"recipes": [{"id": string, "ingredients": [string]}]}`, { modelTier: FAST });
+    const out = await withLoading(Object.values(SEC), "rescale", () => askJSON(`Rescale these recipes for ${n >= 4 ? "4" : n} ${n === 1 ? "person" : "people"}. Keep the same language and wording and change only the quantities (metric, rounded sensibly, whole numbers for counted items). Recipes: ${JSON.stringify(list.map(r => ({ id: r.id, servings: r.servings, ingredients: r.ingredients })))}
+Return ONLY JSON: {"recipes": [{"id": string, "ingredients": [string]}]}`, { modelTier: MODEL_TIER }));
     const ids = new Set(list.map(r => r.id));
     await Promise.all((out.recipes || []).filter(r => r && ids.has(r.id) && Array.isArray(r.ingredients))
       .map(r => db.collection("recipes").doc(r.id).update({ ingredients: r.ingredients, servings: n >= 4 ? 4 : n })));
