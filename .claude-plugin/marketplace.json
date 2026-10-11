@@ -1,0 +1,14 @@
+{
+  "name": "dispensa",
+  "description": "Dispensa: a Claude-run fridge and pantry dashboard that cuts food waste and proposes healthy recipes.",
+  "owner": {
+    "name": "Giovanni Concini"
+  },
+  "plugins": [
+    {
+      "name": "dispensa",
+      "source": "./",
+      "description": "Reads grocery receipts from Gmail and photos, tracks use-by dates and proposes healthy recipes in Italian, English, French or Spanish."
+    }
+  ]
+}

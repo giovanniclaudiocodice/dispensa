@@ -1,0 +1,21 @@
+{
+  "name": "dispensa",
+  "displayName": "Dispensa",
+  "version": "0.3.0",
+  "description": "Personal fridge and pantry dashboard: reads grocery receipts from Gmail and photos, tracks use-by dates, proposes recipes and learns from ratings, minimizing food waste and recommending healthy recipes based on your preferences.",
+  "author": {
+    "name": "Giovanni Concini"
+  },
+  "homepage": "https://github.com/GITHUB_USER/dispensa",
+  "repository": "https://github.com/GITHUB_USER/dispensa",
+  "license": "MIT",
+  "keywords": [
+    "food",
+    "inventory",
+    "recipes",
+    "groceries",
+    "receipts",
+    "food waste",
+    "healthy eating"
+  ]
+}
