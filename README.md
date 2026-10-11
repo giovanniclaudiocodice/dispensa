@@ -5,7 +5,9 @@ A personal fridge and pantry dashboard run by Claude, built to minimize food was
 - Gets your food in two ways, your choice at setup: reading grocery receipts from a Gmail inbox (last 48 hours only), or just photos and manual entry with no email access
 - Tracks quantities in metric units and conservative use-by dates
 - Proposes 3 quick and 3 longer recipes, scaled to the number of people, using first what expires first
-- Learns from thumbs up and down, "I cooked this", notes typed or dictated, and fridge photos
+- Replaces a recipe as soon as one of its ingredients runs out
+- Suggests what to buy: basics to keep the pantry stocked and items that unlock the most new recipes
+- Learns from thumbs up and down, "I cooked this", notes typed or dictated, fridge photos, and remembers lasting preferences such as "I don't like vinegar"
 - Works in Italian, English, French and Spanish
 
 ## Before you install

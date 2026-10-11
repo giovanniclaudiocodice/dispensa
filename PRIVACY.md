@@ -16,7 +16,7 @@ Everything is stored in the database of your private dashboard page on claude.ai
 | Data | Why |
 |---|---|
 | Item names, quantities, purchase dates, use-by dates, storage place | The inventory |
-| Recipes, ratings, recently proposed dish titles | Recipe proposals and learning your taste |
+| Recipes, ratings, recently proposed dish titles, preferences you state in notes (such as "no vinegar"), the shopping list | Recipe proposals, learning your taste and suggesting what to buy |
 | Notes, the instruction sent to Claude with each note, Claude's one-line replies and the model that answered | Applying your changes and showing the history |
 | First name, cuisine, number of people, language, mode, time zone, the inbox address (email mode only) | Personalizing the dashboard and the checks |
 | IDs of the last 500 emails already checked (email mode only) | Not opening the same email twice. Only the ID is kept, never the content, sender or subject |

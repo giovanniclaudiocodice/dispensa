@@ -10,11 +10,12 @@ The user's data lives in the database of their "Dispensa" dashboard artifact. Re
 ## Find the dashboard
 
 1. Use the Artifact tool's `list` and look for a page titled "Dispensa". If there are several or none, ask the user for the link. If there is none, offer to run the `dispensa-setup` skill.
-2. `ArtifactData get meta/state` for owner, cuisine, `lang`, servings, inbox and `manualTriggerId`. Write any new data (item names, recipes, feedback replies) in the `lang` language.
+2. `ArtifactData get meta/state` for owner, cuisine, `lang`, servings, inbox and `manualTriggerId`, plus `meta/prefs` (standing preferences: always follow them) and `meta/shopping` (the shopping list). Write any new data (item names, recipes, feedback replies) in the `lang` language.
 
 ## Answer questions
 
 - **What to cook**: list `recipes`. Group them by `slot` (if missing: simple rank 1 is tonight, other simple recipes are quick, complex ones are slow) and take the newest `batch` per slot (if missing, use `generated`). Lead with the tonight recipe, then the others, each with time and why. If the user wants something different, propose new recipes from non-gone inventory plus rice, pasta and condiments, prioritizing the earliest `useBy`, following `ratings` (never disliked dishes), scaled to `servings`.
+- **What to buy**: read `meta/shopping` and list it. If it is missing or older than the last inventory change, write a new one following the shopping rules in the setup skill's `references/sync-prompt.md` (step 5b).
 - **What is in the fridge / what expires**: list `inventory` with status not "gone", sorted by `useBy`, with days left. Flag anything due today, tomorrow or overdue.
 
 Answer in the language the user is writing in, briefly, as a short list.
@@ -27,7 +28,10 @@ When the user reports a change, apply it the same way the dashboard does:
 - Froze: `storage: "Freezer"`, `useBy` 60 days from today.
 - New expiry: set `useBy` and `useBySetBy: "user"`.
 - Bought something: new `inventory/<english-slug>` doc with a short name in the dashboard language (`meta/state.lang`), metric qty, `bought` today, conservative `useBy`, status full, `source: "note"`.
-- Cooked a recipe: subtract its ingredients and set statuses accordingly.
+- Cooked a recipe: subtract its ingredients and set statuses accordingly, then replace that recipe.
+- A lasting preference ("non mi piace l'aceto", an allergy, a diet): add one short rule in the dashboard language to `meta/prefs.rules`, or remove it if they cancel it. Then replace the recipes on screen that break it.
+
+After any change that makes an item gone, replace the recipes on screen (the newest batch of each slot) that use it: delete each one and write the replacement with the same `tier`, `rank`, `slot` and `batch`. Then refresh `meta/shopping` if the inventory changed.
 
 Read each doc first and pin writes with `if_version`. Use one `batch` for several writes. Then also add a `feedback` doc `{text, at, status: "applied", reply}` so the change shows in the dashboard history. Confirm in one sentence what changed.
 
